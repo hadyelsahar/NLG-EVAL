@@ -1,48 +1,47 @@
-Microsoft COCO Caption Evaluation
-===================
 
-Evaluation codes for MS COCO caption generation.
+# Evaluation of Text Generation Tasks
 
-## Requirements ##
-- java 1.8.0
-- python 2.7
+Code is adapted from [COCO Captions Evaluator]('https://github.com/tylin/coco-caption')
 
-## Files ##
-./
-- cocoEvalCapDemo.py (demo script)
 
-./annotation
-- captions_val2014.json (MS COCO 2014 caption validation set)
-- Visit MS COCO [download](http://mscoco.org/dataset/#download) page for more details.
+Usage
+ 
+```pythonstub
+from evaluator.eval import Evaluator
 
-./results
-- captions_val2014_fakecap_results.json (an example of fake results for running demo)
-- Visit MS COCO [format](http://mscoco.org/dataset/#format) page for more details.
+# list of predicted sentences 
+y = [
+"Trump is the president of United States",
+"Obama is the ex president of United States"
+]
+# list of ground truth  (or list of lists of multiple ground truths)
+# can have multiple label sentences per input  
+# evaluation code will pick the closest one to the predicted target
 
-./pycocoevalcap: The folder where all evaluation codes are stored.
-- evals.py: The file includes COCOEavlCap class that can be used to evaluate results on COCO.
-- tokenizer: Python wrapper of Stanford CoreNLP PTBTokenizer
-- bleu: Bleu evalutation codes
-- meteor: Meteor evaluation codes
-- rouge: Rouge-L evaluation codes
-- cider: CIDEr evaluation codes
+labels = [
+"Trump is the president of USA",
+"Obama is the ex of USA"
+]
 
-## References ##
+e = Evaluator(y, labels)
+e.evaluate()
 
-- [Microsoft COCO Captions: Data Collection and Evaluation Server](http://arxiv.org/abs/1504.00325)
-- PTBTokenizer: We use the [Stanford Tokenizer](http://nlp.stanford.edu/software/tokenizer.shtml) which is included in [Stanford CoreNLP 3.4.1](http://nlp.stanford.edu/software/corenlp.shtml).
-- BLEU: [BLEU: a Method for Automatic Evaluation of Machine Translation](http://www.aclweb.org/anthology/P02-1040.pdf)
-- Meteor: [Project page](http://www.cs.cmu.edu/~alavie/METEOR/) with related publications. We use the latest version (1.5) of the [Code](https://github.com/mjdenkowski/meteor). Changes have been made to the source code to properly aggreate the statistics for the entire corpus.
-- Rouge-L: [ROUGE: A Package for Automatic Evaluation of Summaries](http://anthology.aclweb.org/W/W04/W04-1013.pdf)
-- CIDEr: [CIDEr: Consensus-based Image Description Evaluation] (http://arxiv.org/pdf/1411.5726.pdf)
+print e.overall_eval
 
-## Developers ##
-- Xinlei Chen (CMU)
-- Hao Fang (University of Washington)
-- Tsung-Yi Lin (Cornell)
-- Ramakrishna Vedantam (Virgina Tech)
+```
 
-## Acknowledgement ##
-- David Chiang (University of Norte Dame)
-- Michael Denkowski (CMU)
-- Alexander Rush (Harvard University)
+Results
+```python
+
+{'Bleu_1': 0.6490006524513375,
+ 'Bleu_2': 0.5948189231818395,
+ 'Bleu_3': 0.5563635247729869,
+ 'Bleu_4': 0.5088831646200179,
+ 'CIDEr': 6.3483970550044528,
+ 'METEOR': 0.4589624106163319,
+ 'ROUGE_L': 0.72752674981258092}
+
+```
+
+
+
