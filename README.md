@@ -26,7 +26,7 @@ labels = [
 e = Evaluator(y, labels)
 e.evaluate()
 
-print e.overall_eval
+print(e.overall_eval)
 
 ```
 
